@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300&display=swap" rel="stylesheet">
+<head>
+    <title>TypeTest</title>
+</head>
+<style>
+    
+    *{ 
+        padding:0;
+        margin:0;
+        box-sizing: border-box;
+        font-family: 'Roboto Condensed', sans-serif;
+    }
+    .mainDiv{
+        width:100%;
+        height:100vh;
+        position:relative;
+        background: #3c4f5c;
+    }
+    .centerDiv{
+        position:absolute;
+        top: 20%;
+        left: 30%;
+        transform: translate(-10%, -10%);
+        text-align: center;
+    }
+    @keyframes glow{
+        0%{
+            color:white;
+        }
+        50%{
+            color:yellow;
+        }
+        100%{
+            color:white;
+        }
+
+    }
+    h1{
+        animation-duration: 2s;
+        animation-name: glow;
+        animation-iteration-count: infinite;
+        animation-fill-mode: both;
+        text-transform: capitalize;
+        
+        margin-bottom: 20px;
+        color:#ecf0f1;
+        text-shadow:1px 2px 3px #060b0e;
+        position:relative;
+        font-size:2.1rem;
+    }
+    h2{text-align: center;}
+    textarea{
+        background-color: #444;
+        box-shadow:1px 3px 6px rgba(0,0,0,0.2);
+        border-radius: 10px  10px ;
+        border :7px solid #34495e;
+        color:white;
+        font-size:1rem;
+    }
+    .mainbtn{
+        padding:10px 20px;
+        border-radius: 20px;
+        border:5px solid #2980b9;
+        font-size:1rem;
+        background-color: rgb(58, 129, 223);
+        font-family:monospace;
+    }
+</style>
+<div></div>
+<div class="mainDiv">
+    <div class="centerDiv">
+        <h1>Welcome to Type Test !</h1>
+        <h2 id="msg"></h2>
+        <br>
+        <textarea id="mywords" cols="70" rows=12" placeholder="Type Here!"></textarea>
+        <br>
+        <button id="btn" class="mainbtn">Start</button>
+    </div>
+</div>
+
+
+<script>
+    const setofwords=[
+    "Hello! my mood depends upon how my hair looks like!",
+    "Hey!are you free tonight cause we are having some dump outside!.",
+    "What are you doin my boy , having fun with childrens!"
+    ];
+
+    playGame=() =>{
+        let randomNumber = Math.floor(Math.random()*setofwords.length);
+        msg.innerText=setofwords[randomNumber];
+        let date = new Date();
+        startTime = date.getTime();
+        
+        btn.innerText="Done";
+
+    }
+    
+    endPlay=()=>{
+        let date=new Date();
+        endTime=date.getTime();
+        let totalTime=((endTime-startTime)/1000);
+        
+        let totalStr=typedWords.value;
+        let wordCount = wordCounter(totalStr);
+        
+        let speed=Math.round((wordCount/totalTime)*60);
+        let finalMsg="You typed total Words at " +speed + " words per minute.";
+        finalMsg+=compareWord(msg.innerText,totalStr);
+        msg.innerText=finalMsg;
+    }
+    
+    const wordCounter=(str)=>{
+        let response=str.split(" ").length;
+        return response;
+    }
+    
+    compareWord=(str1,str2)=>{
+        let word1=str1.split(" ");
+        let word2=str2.split(" ");
+        let cnt=0;
+        word1.forEach(function(item,index)
+        {
+            if(item==word2[index])
+            {
+                cnt++;
+            }
+        })
+        let errorWords=(word1.length-cnt);
+        return ("\n"+cnt + " correct out of " +  word1.length + " words and the total number of errors are "+errorWords+" .");
+    }
+
+    const msg=document.getElementById('msg');
+    const typedWords=document.getElementById('mywords');
+    const btn=document.getElementById('btn');
+    let startTime,endTime;
+    btn.addEventListener('click',function(){
+        if(this.innerText=='Start'){
+            typedWords.disabled=false;
+            playGame();
+        }else if(this.innerText=="Done")
+        {
+            typedWords.disabled=true;
+            btn.innerText="Start";
+            endPlay();
+        }
+    })
+
+</script>
+
+<body>
+    
+</body>
+</html>
